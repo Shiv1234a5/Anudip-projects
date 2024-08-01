@@ -1,0 +1,25 @@
+If you use the get() method to fetch a student object with an ID that doesn't exist in the database, the result will be null. This is because Hibernate will execute a SELECT query to retrieve the object with the specified ID, and if no matching record is found, it will return null.
+
+Here's an example:
+
+  Student student = session.get(Student.class, 123L);
+if (student == null) {
+    System.out.println("Student with ID 123 not found");
+} else {
+    System.out.println("Student Name: " + student.getName());
+    System.out.println("Student Email: " + student.getEmail());
+}
+In this example, if a student with ID 123 doesn't exist in the database, the get() method will return null, and the program will print "Student with ID 123 not found".
+
+To handle this situation, you can add a null check after calling the get() method, as shown above. If the returned object is null, you can handle it accordingly, such as by displaying an error message or creating a new student object.
+
+Alternatively, you can use the load() method instead of get(). The load() method will throw an ObjectNotFoundException if the object with the specified ID doesn't exist in the database. Here's an example:
+
+try {
+    Student student = session.load(Student.class, 123L);
+    System.out.println("Student Name: " + student.getName());
+    System.out.println("Student Email: " + student.getEmail());
+} catch (ObjectNotFoundException e) {
+    System.out.println("Student with ID 123 not found");
+}
+In this example, if a student with ID 123 doesn't exist in the database, the load() method will throw an ObjectNotFoundException, which can be caught and handled accordingly.
